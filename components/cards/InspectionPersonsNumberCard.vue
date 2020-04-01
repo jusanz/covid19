@@ -4,11 +4,11 @@
       :title="$t('検査実施人数')"
       :title-id="'number-of-inspection-persons'"
       :chart-id="'number-of-inspection-persons'"
-      :chart-data="graphData"
-      :date="data.date"
+      :chart-data="data"
+      :date="updatedAt"
       :unit="$t('人')"
     >
-      <template v-slot:description>
+      <!--<template v-slot:description>
         <ul>
           <li>
             {{ $t('（注）医療機関が保険適用で行った検査は含まれていない') }}
@@ -26,34 +26,26 @@
             }}
           </li>
         </ul>
-      </template>
+      </template>-->
     </time-bar-chart>
   </v-col>
 </template>
 
 <script>
-import Data from '@/data/data.json'
-import formatGraph from '@/utils/formatGraph'
 import TimeBarChart from '@/components/TimeBarChart.vue'
 
 export default {
   components: {
     TimeBarChart
   },
-  data() {
-    const formatData = Data.inspection_persons.labels.map((date, i) => {
-      return {
-        日付: date,
-        小計: Data.inspection_persons.datasets[0].data[i]
-      }
-    })
-
-    // 検査実施人数グラフ
-    const graphData = formatGraph(formatData)
-
-    return {
-      data: Data.inspection_persons,
-      graphData
+  props: {
+    data: {
+      type: Array,
+      default: () => {}
+    },
+    updatedAt: {
+      type: String,
+      default: ''
     }
   }
 }

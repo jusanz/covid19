@@ -6,37 +6,40 @@
       </page-header>
       <div class="UpdatedAt">
         <span>{{ $t('最終更新') }} </span>
-        <time :datetime="updatedAt">{{ Data.lastUpdate }}</time>
+        <time :datetime="data.summary_updated_at">{{
+          data.summary_updated_at
+        }}</time>
       </div>
       <div v-if="!['ja', 'ja-basic'].includes($i18n.locale)" class="Annotation">
         <span>{{ $t('注釈') }} </span>
       </div>
     </div>
-    <whats-new class="mb-4" :items="newsItems" />
-    <static-info
-      class="mb-4"
-      :url="localePath('/flow')"
-      :text="$t('自分や家族の症状に不安や心配があればまずは電話相談をどうぞ')"
-      :btn-text="$t('相談の手順を見る')"
-    />
     <v-row class="DataBlock">
-      <confirmed-cases-details-card />
-      <tested-cases-details-card />
-      <confirmed-cases-attributes-card />
-      <confirmed-cases-number-card />
-      <inspection-persons-number-card />
-      <tested-number-card />
-      <telephone-advisory-reports-number-card />
-      <consultation-desk-reports-number-card />
-      <metro-card />
-      <agency-card />
-      <shinjuku-visitors-card />
-      <chiyoda-visitors-card />
-    </v-row>
-    <v-divider />
-    <v-row class="DataBlock">
-      <shinjuku-st-map-card />
-      <tokyo-st-map-card />
+      <confirmed-cases-details-card
+        :data="data.summary_data"
+        :updated-at="data.summary_updated_at"
+      />
+      <confirmed-cases-attributes-card
+        :data="data.patients_data"
+        :updated-at="data.patients_updated_at"
+        :sum-info="data.patients_sum"
+      />
+      <confirmed-cases-number-card
+        :data="data.positives_data"
+        :updated-at="data.tests_updated_at"
+      />
+      <inspection-persons-number-card
+        :data="data.tests_data"
+        :updated-at="data.tests_updated_at"
+      />
+      <tested-number-card
+        :data="data.specimens_data"
+        :updated-at="data.tests_updated_at"
+      />
+      <telephone-advisory-reports-number-card
+        :data="data.helpline_data"
+        :updated-at="data.helpline_updated_at"
+      />
     </v-row>
   </div>
 </template>
@@ -45,65 +48,41 @@
 import Vue from 'vue'
 import { MetaInfo } from 'vue-meta'
 import PageHeader from '@/components/PageHeader.vue'
-import WhatsNew from '@/components/WhatsNew.vue'
-import StaticInfo from '@/components/StaticInfo.vue'
-import Data from '@/data/data.json'
 import News from '@/data/news.json'
 import ConfirmedCasesDetailsCard from '@/components/cards/ConfirmedCasesDetailsCard.vue'
-import TestedCasesDetailsCard from '@/components/cards/TestedCasesDetailsCard.vue'
 import ConfirmedCasesNumberCard from '@/components/cards/ConfirmedCasesNumberCard.vue'
 import ConfirmedCasesAttributesCard from '@/components/cards/ConfirmedCasesAttributesCard.vue'
 import TestedNumberCard from '@/components/cards/TestedNumberCard.vue'
 import InspectionPersonsNumberCard from '@/components/cards/InspectionPersonsNumberCard.vue'
 import TelephoneAdvisoryReportsNumberCard from '@/components/cards/TelephoneAdvisoryReportsNumberCard.vue'
-import ConsultationDeskReportsNumberCard from '@/components/cards/ConsultationDeskReportsNumberCard.vue'
-import MetroCard from '@/components/cards/MetroCard.vue'
-import AgencyCard from '@/components/cards/AgencyCard.vue'
-import { convertDatetimeToISO8601Format } from '@/utils/formatDate'
-import ShinjukuVisitorsCard from '@/components/cards/ShinjukuVisitorsCard.vue'
-import ChiyodaVisitorsCard from '@/components/cards/ChiyodaVisitorsCard.vue'
-import ShinjukuStMapCard from '@/components/cards/ShinjukuStMapCard.vue'
-import TokyoStMapCard from '@/components/cards/TokyoStMapCard.vue'
 
 export default Vue.extend({
   components: {
     PageHeader,
-    WhatsNew,
-    StaticInfo,
     ConfirmedCasesDetailsCard,
-    TestedCasesDetailsCard,
     ConfirmedCasesNumberCard,
     ConfirmedCasesAttributesCard,
     TestedNumberCard,
     InspectionPersonsNumberCard,
-    TelephoneAdvisoryReportsNumberCard,
-    ConsultationDeskReportsNumberCard,
-    MetroCard,
-    AgencyCard,
-    ShinjukuVisitorsCard,
-    ChiyodaVisitorsCard,
-    ShinjukuStMapCard,
-    TokyoStMapCard
+    TelephoneAdvisoryReportsNumberCard
+  },
+  async asyncData({ $axios }) {
+    const data = await $axios.$get('https://api.code4kochi.com/data/')
+    return { data }
   },
   data() {
     const data = {
-      Data,
       headerItem: {
         icon: 'mdi-chart-timeline-variant',
-        title: this.$t('都内の最新感染動向')
+        title: this.$t('高知県内の感染動向')
       },
       newsItems: News.newsItems
     }
     return data
   },
-  computed: {
-    updatedAt() {
-      return convertDatetimeToISO8601Format(this.$data.Data.lastUpdate)
-    }
-  },
   head(): MetaInfo {
     return {
-      title: this.$t('都内の最新感染動向') as string
+      title: this.$t('高知県内の感染動向') as string
     }
   }
 })

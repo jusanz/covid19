@@ -13,11 +13,11 @@
           <img
             class="SideNavigation-HeaderLogo"
             src="/logo.svg"
-            :alt="$t('東京都')"
+            :alt="$t('高知県（非公式）')"
           />
           <div class="SideNavigation-HeaderText">
             {{ $t('menu/新型コロナウイルス感染症') }}<br />{{
-              $t('menu/対策サイト')
+              $t('対策サイト（非公式）')
             }}
           </div>
         </nuxt-link>
@@ -35,64 +35,9 @@
 
       <nav class="SideNavigation-Menu">
         <MenuList :items="items" @click="$emit('closeNavi', $event)" />
-        <div
-          v-if="this.$i18n.locales.length > 1"
-          class="SideNavigation-Language"
-        >
-          <label class="SideNavigation-LanguageLabel" for="LanguageSelector">
-            {{ $t('多言語対応選択メニュー') }}
-          </label>
-          <LanguageSelector />
-        </div>
       </nav>
 
       <footer class="SideNavigation-Footer">
-        <div class="SideNavigation-Social">
-          <a
-            href="https://line.me/R/ti/p/%40822sysfc"
-            target="_blank"
-            rel="noopener"
-            class="SideNavigation-SocialLink"
-          >
-            <picture>
-              <source srcset="/line.webp" type="image/webp" />
-              <img src="/line.png" alt="LINE" />
-            </picture>
-          </a>
-          <a
-            href="https://twitter.com/tokyo_bousai"
-            target="_blank"
-            rel="noopener"
-            class="SideNavigation-SocialLink"
-          >
-            <picture>
-              <source srcset="/twitter.webp" type="image/webp" />
-              <img src="/twitter.png" alt="Twitter" />
-            </picture>
-          </a>
-          <a
-            href="https://www.facebook.com/tochokoho"
-            target="_blank"
-            rel="noopener"
-            class="SideNavigation-SocialLink"
-          >
-            <picture>
-              <source srcset="/facebook.webp" type="image/webp" />
-              <img src="/facebook.png" alt="Facebook" />
-            </picture>
-          </a>
-          <a
-            href="https://github.com/tokyo-metropolitan-gov/covid19"
-            target="_blank"
-            rel="noopener"
-            class="SideNavigation-SocialLink"
-          >
-            <picture>
-              <source srcset="/github.webp" type="image/webp" />
-              <img src="/github.png" alt="GitHub" />
-            </picture>
-          </a>
-        </div>
         <small class="SideNavigation-Copyright">
           {{ $t('このサイトの内容物は') }}
           <a
@@ -105,7 +50,7 @@
           </a>
           {{ $t('の下に提供されています。') }}
           <br />
-          2020 Tokyo Metropolitan Government
+          2020 Code4Kochi
         </small>
       </footer>
     </div>
@@ -115,7 +60,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import { TranslateResult } from 'vue-i18n'
-import LanguageSelector from '@/components/LanguageSelector.vue'
 import MenuList from '@/components/MenuList.vue'
 
 type Item = {
@@ -127,7 +71,6 @@ type Item = {
 
 export default Vue.extend({
   components: {
-    LanguageSelector,
     MenuList
   },
   props: {
@@ -141,57 +84,16 @@ export default Vue.extend({
       return [
         {
           icon: 'mdi-chart-timeline-variant',
-          title: this.$t('都内の最新感染動向'),
+          title: this.$t('高知県内の感染動向'),
           link: this.localePath('/')
-        },
-        {
-          icon: 'CovidIcon',
-          title: this.$t('新型コロナウイルス感染症が心配なときに'),
-          link: this.localePath('/flow'),
-          divider: true
-        },
-        {
-          icon: 'ParentIcon',
-          title: this.$t('お子様をお持ちの皆様へ'),
-          link: this.localePath('/parent')
-        },
-        {
-          icon: 'mdi-account-multiple',
-          title: this.$t('都民の皆様へ'),
-          link: 'https://www.metro.tokyo.lg.jp/tosei/tosei/news/2019-ncov.html'
-        },
-        {
-          icon: 'mdi-domain',
-          title: this.$t('企業の皆様・はたらく皆様へ'),
-          link: this.localePath('/worker'),
-          divider: true
-        },
-        {
-          title: this.$t('東京都新型コロナウイルス感染症対策本部報'),
-          link:
-            'https://www.bousai.metro.tokyo.lg.jp/taisaku/saigai/1007261/index.html'
-        },
-        {
-          title: this.$t('東京都主催等 中止又は延期するイベント等'),
-          link:
-            'https://www.seisakukikaku.metro.tokyo.lg.jp/information/event00.html'
-        },
-        {
-          title: this.$t('知事からのメッセージ'),
-          link:
-            'https://www.metro.tokyo.lg.jp/tosei/governor/governor/katsudo/2020/03/03_00.html'
         },
         {
           title: this.$t('当サイトについて'),
           link: this.localePath('/about')
         },
         {
-          title: this.$t('お問い合わせ先一覧'),
-          link: this.localePath('/contacts')
-        },
-        {
-          title: this.$t('東京都公式ホームページ'),
-          link: 'https://www.metro.tokyo.lg.jp/'
+          title: this.$t('新型コロナウイルス感染症に関する情報（高知県公式）'),
+          link: 'https://www.pref.kochi.lg.jp/soshiki/111301/info-COVIT-19.html'
         }
       ]
     }
