@@ -2,27 +2,40 @@
   <div>
     <confirmed-cases-details-card
       v-if="this.$route.params.card == 'details-of-confirmed-cases'"
+      :data="data.summary_data"
+      :updated-at="data.summary_updated_at"
     />
     <tested-cases-details-card
       v-else-if="this.$route.params.card == 'details-of-tested-cases'"
     />
     <confirmed-cases-number-card
       v-else-if="this.$route.params.card == 'number-of-confirmed-cases'"
+      :data="data.positives_data"
+      :updated-at="data.tests_updated_at"
     />
     <confirmed-cases-attributes-card
       v-else-if="this.$route.params.card == 'attributes-of-confirmed-cases'"
+      :data="data.patients_data"
+      :updated-at="data.patients_updated_at"
+      :sum-info="data.patients_sum"
     />
     <tested-number-card
       v-else-if="this.$route.params.card == 'number-of-tested'"
+      :data="data.specimens_data"
+      :updated-at="data.tests_updated_at"
     />
     <inspection-persons-number-card
       v-else-if="this.$route.params.card == 'number-of-inspection-persons'"
+      :data="data.tests_data"
+      :updated-at="data.tests_updated_at"
     />
     <telephone-advisory-reports-number-card
       v-else-if="
         this.$route.params.card ==
           'number-of-reports-to-covid19-telephone-advisory-center'
       "
+      :data="data.helpline_data"
+      :updated-at="data.helpline_updated_at"
     />
     <consultation-desk-reports-number-card
       v-else-if="
@@ -93,6 +106,10 @@ export default {
     ShinjukuStMapCard,
     TokyoStMapCard,
     TokyoCityMapCard
+  },
+  async asyncData({ $axios }) {
+    const data = await $axios.$get('https://api.code4kochi.com/data/')
+    return { data }
   },
   data() {
     let title, updatedAt
