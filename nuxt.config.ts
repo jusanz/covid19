@@ -91,13 +91,16 @@ const config: Configuration = {
   buildModules: [
     '@nuxtjs/stylelint-module',
     '@nuxtjs/vuetify',
-    ['@nuxt/typescript-build', {
-      typeCheck: {
-        memoryLimit: 2048,
-        workers: 1
-      },
-      ignoreNotFoundWarnings: false
-    }],
+    [
+      '@nuxt/typescript-build',
+      {
+        typeCheck: {
+          memoryLimit: 2048,
+          workers: 1
+        },
+        ignoreNotFoundWarnings: false
+      }
+    ],
     '@nuxtjs/google-analytics'
   ],
   /*
