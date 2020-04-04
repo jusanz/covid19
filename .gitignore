@@ -99,3 +99,10 @@ ogp/*
 
 # Vagrant
 .vagrant
+
+# Chrome driver
+chromedriver
+
+# Python venv
+/venv/
+o
